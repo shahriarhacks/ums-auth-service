@@ -1,13 +1,13 @@
 import express, { Application, Request, Response } from 'express'
 import cors from 'cors'
 
-const app: Application = express()
+// const app: Application = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
-app.get('/health', (_req: Request, res: any) => {
+app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({
     statusCode: res.statusCode,
     request: true,
