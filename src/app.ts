@@ -7,7 +7,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
-app.get('/health', (_req: Request, res: Response) => {
+app.get('/health', (_req: Request, res: any) => {
   res.status(200).json({
     statusCode: res.statusCode,
     request: true,
