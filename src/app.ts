@@ -16,7 +16,7 @@ app.get('/health', (_req: Request, res: Response) => {
     statusCode: res.statusCode,
     request: true,
     message: 'Success',
-    data: [],
+    data: null,
   })
 })
 

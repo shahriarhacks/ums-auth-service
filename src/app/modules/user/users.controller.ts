@@ -16,7 +16,7 @@ export const createUser = async (req: Request, res: Response) => {
       statusCode: res.statusCode,
       request: false,
       message: 'Failed',
-      data: [],
+      data: null,
     })
   }
 }
