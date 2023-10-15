@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from 'express'
 import cors from 'cors'
-import userRouter from './app/modules/user/users.router'
+import userRouter from './app/modules/user/user.router'
+import globalErrorHandler from './app/middlewares/globalErrorHandler'
 
 const app: Application = express()
 
@@ -10,6 +11,10 @@ app.use(cors())
 
 //Application router call
 app.use('/api/v1/users', userRouter)
+
+// Global Error Handler
+
+app.use(globalErrorHandler)
 
 app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({

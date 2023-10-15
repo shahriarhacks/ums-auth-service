@@ -17,11 +17,14 @@
     "no-undefined": "error",
     "no-unused-expressions": "error",
     "no-unreachable": "error"
-    // "consistent-type-definitions": "error"
   },
 
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "node": true
+  },
+  "globals": {
+    "process": "readonly"
   }
 }
