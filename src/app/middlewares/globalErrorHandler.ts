@@ -1,42 +1,47 @@
-import { ErrorRequestHandler } from 'express'
-import config from '../../config'
-import { IGenericErrorMessage } from '../../interfaces/errorType'
-import handleValidationError from '../../errors/handleValidationError'
-import ApiError from '../../errors/ApiError'
-const globalErrorHandler: ErrorRequestHandler = (error, _req, res, next) => {
-  // eslint-disable-next-line prefer-const
-  let statusCode: number = 500
-  // eslint-disable-next-line prefer-const
-  let message: string = 'Something went wrong'
-  // eslint-disable-next-line prefer-const
-  let errorMessages: Array<IGenericErrorMessage> = []
+/* eslint-disable no-console */
+/* eslint-disable no-unused-expressions */
+// eslint-disable-next-line prefer-const
 
-  if (error?.name === 'ValidationError') {
-    const simplifiedError = handleValidationError(error)
-    statusCode = simplifiedError.statusCode
-    message = simplifiedError.message
-    errorMessages = simplifiedError.errorMessages
+import { ErrorRequestHandler } from "express";
+import config from "../../config";
+import ApiError from "../../errors/ApiError";
+import handleValidationError from "../../errors/handleValidationError";
+import { IGenericErrorMessage } from "../../interfaces/errorType";
+import { errorLog } from "../../shared/logger";
+const globalErrorHandler: ErrorRequestHandler = (error, _req, res, next) => {
+  config.env === "development"
+    ? console.log("Global error handler ~", error)
+    : errorLog.error("Global error handler ~", error);
+  let statusCode: number = 500;
+  let message: string = "Something went wrong";
+  let errorMessages: Array<IGenericErrorMessage> = [];
+
+  if (error?.name === "ValidationError") {
+    const simplifiedError = handleValidationError(error);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorMessages = simplifiedError.errorMessages;
   } else if (error instanceof ApiError) {
-    statusCode = error?.statusCode
-    message = error.message
+    statusCode = error?.statusCode;
+    message = error.message;
     errorMessages = error?.message
       ? [
           {
-            path: '',
+            path: "",
             message: error?.message,
           },
         ]
-      : []
+      : [];
   } else if (error instanceof Error) {
-    message = error?.message
+    message = error?.message;
     errorMessages = error?.message
       ? [
           {
-            path: '',
+            path: "",
             message: error?.message,
           },
         ]
-      : []
+      : [];
   }
 
   res.status(statusCode).json({
@@ -44,9 +49,9 @@ const globalErrorHandler: ErrorRequestHandler = (error, _req, res, next) => {
     message,
     errorMessages,
     // eslint-disable-next-line no-undefined
-    stack: config.env !== 'production' ? error.stack : undefined,
-  })
-  next()
-}
+    stack: config.env !== "production" ? error.stack : undefined,
+  });
+  next();
+};
 
-export default globalErrorHandler
+export default globalErrorHandler;
