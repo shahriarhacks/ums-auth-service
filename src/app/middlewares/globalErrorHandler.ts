@@ -3,21 +3,30 @@
 // eslint-disable-next-line prefer-const
 
 import { ErrorRequestHandler } from "express";
+import { ZodError } from "zod";
 import config from "../../config";
 import ApiError from "../../errors/ApiError";
 import handleValidationError from "../../errors/handleValidationError";
+import handleZodError from "../../errors/handleZodError";
 import { IGenericErrorMessage } from "../../interfaces/errorType";
 import { errorLog } from "../../shared/logger";
+
 const globalErrorHandler: ErrorRequestHandler = (error, _req, res, next) => {
   config.env === "development"
     ? console.log("Global error handler ~", error)
     : errorLog.error("Global error handler ~", error);
-  let statusCode: number = 500;
+
+  let statusCode: number = 400;
   let message: string = "Something went wrong";
   let errorMessages: Array<IGenericErrorMessage> = [];
 
   if (error?.name === "ValidationError") {
     const simplifiedError = handleValidationError(error);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorMessages = simplifiedError.errorMessages;
+  } else if (error instanceof ZodError) {
+    const simplifiedError = handleZodError(error);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
