@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Server } from "http";
 import mongoose from "mongoose";
 import app from "./app";
@@ -13,7 +12,7 @@ process.on("uncaughtException", error => {
 let server: Server;
 async function connectDB() {
   try {
-    await mongoose.connect(config.DB_URI as string);
+    await mongoose.connect(config.LOCAL_URI as string);
     log.info(`DB Connected Successfully`);
     server = app.listen(config.port, () => {
       log.info(`Server Connected Successfully on port ${config.port}`);

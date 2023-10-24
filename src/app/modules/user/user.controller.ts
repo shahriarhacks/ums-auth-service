@@ -1,17 +1,17 @@
 import { RequestHandler } from "express";
+import catchAsync from "../../../shared/catchAsync";
+import sendResponse from "../../../shared/sendResponse";
 import { createUserService } from "./user.services";
 
-export const createUser: RequestHandler = async (req, res, next) => {
-  try {
-    const { user } = req.body;
-    const result = await createUserService(user);
-    res.status(201).json({
-      statusCode: res.statusCode,
-      request: true,
-      message: "Success",
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+export const createUser: RequestHandler = catchAsync(async (req, res, next) => {
+  const { user } = req.body;
+  const result = await createUserService(user);
+
+  sendResponse(res, {
+    statusCode: 201,
+    success: true,
+    message: "User Created Successfully",
+    data: result,
+  });
+  next();
+});

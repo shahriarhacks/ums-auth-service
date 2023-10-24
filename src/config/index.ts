@@ -7,6 +7,7 @@ const config = {
   env: process.env.NODE_ENV,
   port: process.env.PORT,
   DB_URI: process.env.DB_URI,
+  LOCAL_URI: process.env.LOCAL_DB_URI,
   DEF_PASS: process.env.USER_DEF_PASS,
 };
 
