@@ -1,3 +1,4 @@
+import httpStatus from "http-status";
 import { SortOrder } from "mongoose";
 import QueryString from "qs";
 import ApiError from "../../../errors/ApiError";
@@ -17,15 +18,24 @@ export const createAcademicSemesterService = async (
   payload: IAcademicSemester,
 ) => {
   if (academicSemesterTitleCodeMapper[payload.title] !== payload.code) {
-    throw new ApiError(400, "Academic Semester Title and code are not matched");
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Academic Semester Title and code are not matched",
+    );
   } else if (
     academicSemesterTitleStartMonthMapper[payload.title] !== payload.startMonth
   ) {
-    throw new ApiError(400, "Semester Start Month and Title not matched");
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Semester Start Month and Title not matched",
+    );
   } else if (
     academicSemesterTitleEndMonthMapper[payload.title] !== payload.endMonth
   ) {
-    throw new ApiError(400, "Semester End Month and Title not matched");
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Semester End Month and Title not matched",
+    );
   } else {
     const result = await AcademicSemester.create(payload);
     return result;
@@ -36,51 +46,53 @@ export const getAllAcademicSemesterService = async (
   pgOptions: IPaginationOptions,
   filters: Partial<QueryString.ParsedQs>,
 ): Promise<IGenericResponse<IAcademicSemester[]>> => {
-  const { searchTerm, ...filtersData } = filters;
+  const { search, ...filtersData } = filters;
 
   const andCondition = [];
 
-  if (searchTerm) {
+  if (search) {
     andCondition.push({
       $or: searchableFields.map(field => ({
         [field]: {
-          $regex: searchTerm,
+          $regex: search,
           $options: "i",
         },
       })),
     });
   }
 
+  const whereConditions = andCondition.length > 0 ? { $and: andCondition } : {};
+
   // const andCondition = [
   //   {
   //     $or: [
   //       {
   //         title: {
-  //           $regex: searchTerm,
+  //           $regex: search,
   //           $options: "i",
   //         },
   //       },
   //       {
   //         code: {
-  //           $regex: searchTerm,
+  //           $regex: search,
   //           $options: "i",
   //         },
   //       },
   //       {
   //         year: {
-  //           $regex: searchTerm,
+  //           $regex: search,
   //           $options: "i",
   //         },
   //       },
   //       {
   //         startMonth: {
-  //           $regex: searchTerm,
+  //           $regex: search,
   //           $options: "i",
   //         },
   //       },
   //       {
   //         endMonth: {
-  //           $regex: searchTerm,
+  //           $regex: search,
   //           $options: "i",
   //         },
   //       },
@@ -104,7 +116,7 @@ export const getAllAcademicSemesterService = async (
   if (sortBy && sortOrder) {
     sortCondition[sortBy] = sortOrder;
   }
-  const result = await AcademicSemester.find({ $and: andCondition })
+  const result = await AcademicSemester.find(whereConditions)
     .sort(sortCondition)
     .skip(skip)
     .limit(limit);
@@ -118,4 +130,9 @@ export const getAllAcademicSemesterService = async (
     },
     data: result,
   };
+};
+
+export const getSingleSemesterService = async (id: string) => {
+  const result = await AcademicSemester.findById(id);
+  return result;
 };
