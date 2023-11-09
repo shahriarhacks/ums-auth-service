@@ -32,5 +32,5 @@ export type academicSemesterModel = Model<
 >;
 
 export type IFiltersType = {
-  searchTerm: string;
+  search: string;
 };

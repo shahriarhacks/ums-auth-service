@@ -54,7 +54,7 @@ export const searchableFields: Array<string> = [
 ];
 
 export const filtersAbleFields: Array<string> = [
-  "searchTerm",
+  "search",
   "title",
   "code",
   "year",
