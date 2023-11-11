@@ -2,6 +2,7 @@ import express from "express";
 import validateRequest from "../../middlewares/validateRequest";
 import {
   createAcademicSemesterController,
+  deleteSingleSemester,
   getAllAcademicSemesters,
   getSingleSemester,
   updateSemester,
@@ -14,7 +15,7 @@ import {
 const router = express.Router();
 
 router.post(
-  "/create-semester",
+  "/create",
   validateRequest(createAcademicSemesterZodSchema),
   createAcademicSemesterController,
 );
@@ -26,6 +27,8 @@ router.patch(
   validateRequest(updateAcademicSemesterZodSchema),
   updateSemester,
 );
+
+router.delete("/:id", deleteSingleSemester);
 
 router.get("/", getAllAcademicSemesters);
 

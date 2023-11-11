@@ -145,3 +145,8 @@ export const updateSingleSemesterService = async (
   );
   return result;
 };
+
+export const deleteSingleSemesterServices = async (id: string) => {
+  const result = await AcademicSemester.findByIdAndDelete(id);
+  return result;
+};

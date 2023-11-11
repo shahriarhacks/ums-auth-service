@@ -9,6 +9,7 @@ import { filtersAbleFields } from "./academicSemester.constant";
 import { IAcademicSemester } from "./academicSemester.interface";
 import {
   createAcademicSemesterService,
+  deleteSingleSemesterServices,
   getAllAcademicSemesterService,
   getSingleSemesterService,
   updateSingleSemesterService,
@@ -79,25 +80,6 @@ export const getSingleSemester = async (
     next(error);
   }
 };
-export const getSingleSemester2 = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const { id } = req.params;
-    const result = await getSingleSemesterService(id);
-    console.log(result);
-    return sendResponse<IAcademicSemester>(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Single Semester Retrieve Successfully",
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
 
 export const updateSemester = async (
   req: Request,
@@ -112,6 +94,21 @@ export const updateSemester = async (
       statusCode: httpStatus.CREATED,
       success: true,
       message: "Single Semester Updated Successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteSingleSemester: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await deleteSingleSemesterServices(id);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Semester Deleted Successfully",
       data: result,
     });
   } catch (error) {
