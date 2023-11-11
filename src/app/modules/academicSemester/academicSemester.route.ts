@@ -4,8 +4,12 @@ import {
   createAcademicSemesterController,
   getAllAcademicSemesters,
   getSingleSemester,
+  updateSemester,
 } from "./academicSemester.controller";
-import createAcademicSemesterZodSchema from "./academicSemester.validation";
+import {
+  createAcademicSemesterZodSchema,
+  updateAcademicSemesterZodSchema,
+} from "./academicSemester.validation";
 
 const router = express.Router();
 
@@ -16,6 +20,12 @@ router.post(
 );
 
 router.get("/:id", getSingleSemester);
+
+router.patch(
+  "/:id",
+  validateRequest(updateAcademicSemesterZodSchema),
+  updateSemester,
+);
 
 router.get("/", getAllAcademicSemesters);
 

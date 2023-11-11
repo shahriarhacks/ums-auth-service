@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { SortOrder } from "mongoose";
+import mongoose, { SortOrder } from "mongoose";
 import QueryString from "qs";
 import ApiError from "../../../errors/ApiError";
 import paginationHelperCalculator from "../../../helpers/paginationHelper";
@@ -7,8 +7,6 @@ import { IGenericResponse } from "../../../interfaces/commonType";
 import { IPaginationOptions } from "../../../interfaces/paginationOptionsType";
 import {
   academicSemesterTitleCodeMapper,
-  academicSemesterTitleEndMonthMapper,
-  academicSemesterTitleStartMonthMapper,
   searchableFields,
 } from "./academicSemester.constant";
 import { IAcademicSemester } from "./academicSemester.interface";
@@ -22,24 +20,9 @@ export const createAcademicSemesterService = async (
       httpStatus.BAD_REQUEST,
       "Academic Semester Title and code are not matched",
     );
-  } else if (
-    academicSemesterTitleStartMonthMapper[payload.title] !== payload.startMonth
-  ) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "Semester Start Month and Title not matched",
-    );
-  } else if (
-    academicSemesterTitleEndMonthMapper[payload.title] !== payload.endMonth
-  ) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "Semester End Month and Title not matched",
-    );
-  } else {
-    const result = await AcademicSemester.create(payload);
-    return result;
   }
+  const result = await AcademicSemester.create(payload);
+  return result;
 };
 
 export const getAllAcademicSemesterService = async (
@@ -133,6 +116,32 @@ export const getAllAcademicSemesterService = async (
 };
 
 export const getSingleSemesterService = async (id: string) => {
-  const result = await AcademicSemester.findById(id);
+  const result = await AcademicSemester.findById(
+    new mongoose.Types.ObjectId(id),
+  );
+  return result;
+};
+
+export const updateSingleSemesterService = async (
+  id: string,
+  payload: Partial<IAcademicSemester>,
+) => {
+  if (
+    payload.title &&
+    payload.code &&
+    academicSemesterTitleCodeMapper[payload.title] !== payload.code
+  ) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Academic Semester Title and code are not matched",
+    );
+  }
+  const result = await AcademicSemester.findOneAndUpdate(
+    { _id: new mongoose.Types.ObjectId(id) },
+    payload,
+    {
+      new: true,
+    },
+  );
   return result;
 };
