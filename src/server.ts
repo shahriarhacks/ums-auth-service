@@ -10,15 +10,17 @@ process.on("uncaughtException", error => {
 });
 
 let server: Server;
-async function connectDB() {
+
+async function bootstrap() {
   try {
     await mongoose.connect(config.LOCAL_URI as string);
-    log.info(`DB Connected Successfully`);
+    log.info(`🛢   Database is connected successfully`);
+
     server = app.listen(config.port, () => {
-      log.info(`Server Connected Successfully on port ${config.port}`);
+      log.info(`Application  listening on port ${config.port}`);
     });
-  } catch (error) {
-    errorLog.error(`DB connected Failed ${error}`);
+  } catch (err) {
+    errorLog.error("Failed to connect database", err);
   }
 
   process.on("unhandledRejection", error => {
@@ -32,11 +34,12 @@ async function connectDB() {
     }
   });
 }
-connectDB();
 
-process.on("SIGTERM", () => {
-  log.info("SIGTERM is received");
-  if (server) {
-    server.close();
-  }
-});
+bootstrap();
+
+// process.on("SIGTERM", () => {
+//   log.info("SIGTERM is received");
+//   if (server) {
+//     server.close();
+//   }
+// });
