@@ -2,6 +2,7 @@ import express from "express";
 import validateRequest from "../../middlewares/validateRequest";
 import {
   createAcademicFaculty,
+  deleteSingleFaculty,
   getAllAcademicFaculty,
   getSingleAcademicFaculty,
   updateSingleAcademicFaculty,
@@ -26,6 +27,8 @@ router.patch(
   validateRequest(updateAcademicFacultyZodSchema),
   updateSingleAcademicFaculty,
 );
+
+router.delete("/:id", deleteSingleFaculty);
 
 router.get("/", getAllAcademicFaculty);
 
