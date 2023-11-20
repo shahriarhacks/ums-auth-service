@@ -1,15 +1,43 @@
-import User from "./user.model";
+/* eslint-disable no-undefined */
+import { IAcademicSemester } from "../academicSemester/academicSemester.interface";
+import Faculty from "../faculty/faculty.model";
+import Student from "../student/student.model";
 
-export const findLastNumber = async () => {
-  const lastUser = await User.findOne({}, { id: 1, _id: 0 })
-    .sort({ createdAt: -1 })
+export const findLastStudentId = async (): Promise<string | undefined> => {
+  const lastStudent = await Student.findOne({}, { sid: 1, _id: 0 })
+    .sort({
+      createdAt: -1,
+    })
     .lean();
 
-  return lastUser?.id;
+  return lastStudent?.sid ? lastStudent.sid.substring(6) : undefined;
 };
 
-export const generatedUserId = async () => {
-  const currentId = (await findLastNumber()) || (0).toString().padStart(5, "0");
+export const generatedStudentId = async (
+  academicSemester: IAcademicSemester,
+) => {
+  const currentId = (await findLastStudentId()) || 0;
   const incId = (Number(currentId) + 1).toString().padStart(5, "0");
-  return incId;
+  const studentId = `S-${academicSemester.year.substring(2)}${
+    academicSemester.code
+  }${incId}`;
+  return studentId;
+};
+
+export const findLastFacultyId = async () => {
+  const lastFaculty = await Faculty.findOne({}, { fid: 1, _id: 0 })
+    .sort({
+      createdAt: -1,
+    })
+    .lean();
+
+  return lastFaculty?.fid ? lastFaculty.fid.substring(2) : undefined;
+};
+
+export const generatedFacultyId = async () => {
+  const currentId = (await findLastFacultyId()) || 0;
+  const incId = (Number(currentId) + 1).toString().padStart(5, "0");
+  const facultyId = `F-${incId}`;
+
+  return facultyId;
 };

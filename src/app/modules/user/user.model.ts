@@ -3,7 +3,7 @@ import { IUser, UserModel } from "./user.interface";
 
 const userSchema = new Schema<IUser>(
   {
-    id: {
+    uid: {
       type: String,
       required: true,
       unique: true,
@@ -17,6 +17,14 @@ const userSchema = new Schema<IUser>(
     password: {
       type: String,
       required: true,
+    },
+    student: {
+      type: Schema.Types.ObjectId,
+      ref: "Student",
+    },
+    faculty: {
+      type: Schema.Types.ObjectId,
+      ref: "Faculty",
     },
   },
   {
