@@ -1,7 +1,12 @@
+/* eslint-disable no-console */
 import { RequestHandler } from "express";
 import httpStatus from "http-status";
 import sendResponse from "../../../shared/sendResponse";
-import { createFacultyServices, createStudentService } from "./user.services";
+import {
+  createAdminServices,
+  createFacultyServices,
+  createStudentService,
+} from "./user.services";
 
 export const createStudent: RequestHandler = async (req, res, next) => {
   try {
@@ -27,6 +32,21 @@ export const createFaculty: RequestHandler = async (req, res, next) => {
       statusCode: httpStatus.CREATED,
       success: true,
       message: "Create Faculty Successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const createAdmin: RequestHandler = async (req, res, next) => {
+  try {
+    const { admin, ...userData } = req.body;
+    const result = await createAdminServices(admin, userData);
+    sendResponse(res, {
+      statusCode: httpStatus.CREATED,
+      success: true,
+      message: "Create Admin Successfully",
       data: result,
     });
   } catch (error) {
