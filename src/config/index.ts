@@ -10,6 +10,7 @@ const config = {
   LOCAL_URI: process.env.LOCAL_DB_URI,
   DEF_STUDENT_PASS: process.env.STUDENT_DEF_PASS,
   DEF_FACULTY_PASS: process.env.FACULTY_DEF_PASS,
+  DEF_ADMIN_PASS: process.env.ADMIN_DEF_PASS,
 };
 
 export default config;

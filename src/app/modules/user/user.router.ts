@@ -1,7 +1,8 @@
 import express from "express";
 import validateRequest from "../../middlewares/validateRequest";
-import { createFaculty, createStudent } from "./user.controller";
+import { createAdmin, createFaculty, createStudent } from "./user.controller";
 import {
+  createAdminZodSchema,
   createFacultyZodSchema,
   createStudentZodSchema,
 } from "./user.validation";
@@ -18,6 +19,12 @@ router.post(
   "/create-faculty",
   validateRequest(createFacultyZodSchema),
   createFaculty,
+);
+
+router.post(
+  "/create-admin",
+  validateRequest(createAdminZodSchema),
+  createAdmin,
 );
 
 export default router;

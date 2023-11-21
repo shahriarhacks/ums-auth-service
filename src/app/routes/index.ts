@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import academicDepartmentRoute from "../modules/academicDepartment/academicDepartment.router";
 import academicFacultyRoute from "../modules/academicFaculty/academicFaculty.router";
 import academicSemesterRoute from "../modules/academicSemester/academicSemester.route";
+import managementDepartmentRoute from "../modules/managementDepartment/managementDepartment.route";
 import userRoute from "../modules/user/user.router";
 
 const router = express.Router();
@@ -24,6 +25,10 @@ const moduleRoutes: IModuleRouter[] = [
   {
     path: "/acd",
     route: academicDepartmentRoute,
+  },
+  {
+    path: "/md",
+    route: managementDepartmentRoute,
   },
 ];
 

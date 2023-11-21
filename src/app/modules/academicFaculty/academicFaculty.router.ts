@@ -8,7 +8,7 @@ import {
   updateSingleAcademicFaculty,
 } from "./academicFaculty.controller";
 import {
-  createAcademicSemesterZodSchema,
+  createAcademicFacultyZodSchema,
   updateAcademicFacultyZodSchema,
 } from "./academicFaculty.validation";
 
@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.post(
   "/create",
-  validateRequest(createAcademicSemesterZodSchema),
+  validateRequest(createAcademicFacultyZodSchema),
   createAcademicFaculty,
 );
 
