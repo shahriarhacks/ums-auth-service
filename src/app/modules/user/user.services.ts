@@ -123,14 +123,7 @@ export const createFacultyServices = async (faculty: IFaculty, user: IUser) => {
   if (newUserAllData) {
     newUserAllData = await User.findOne({ _id: newUserAllData.id }).populate({
       path: "faculty",
-      populate: [
-        {
-          path: "academicDepartment",
-        },
-        {
-          path: "academicFaculty",
-        },
-      ],
+      populate: [{ path: "academicDepartment" }, { path: "academicFaculty" }],
     });
   }
 
@@ -148,7 +141,6 @@ export const createAdminServices = async (
   // set role
   user.role = "admin";
 
-  console.log("Hello");
   // generate faculty id
   let newUserAllData = null;
   const session = await mongoose.startSession();
@@ -159,7 +151,6 @@ export const createAdminServices = async (
     user.uid = id;
     admin.aid = id;
 
-    console.log("hello");
     const newAdmin = await Admin.create([admin], { session });
 
     if (!newAdmin.length) {
@@ -186,11 +177,9 @@ export const createAdminServices = async (
   if (newUserAllData) {
     newUserAllData = await User.findOne({ _id: newUserAllData.id }).populate({
       path: "admin",
-      populate: [
-        {
-          path: "managementDepartment",
-        },
-      ],
+      populate: {
+        path: "managementDepartment",
+      },
     });
   }
 
