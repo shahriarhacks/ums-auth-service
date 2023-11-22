@@ -69,7 +69,7 @@ export const getSingleSemester = async (
   try {
     const { id } = req.params;
     const result = await getSingleSemesterService(id);
-    console.log(result);
+
     sendResponse<IAcademicSemester>(res, {
       statusCode: httpStatus.OK,
       success: true,

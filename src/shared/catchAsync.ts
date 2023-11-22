@@ -7,10 +7,8 @@ import sendResponse from "./sendResponse";
 const catchAsync = (fn: RequestHandler) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log("Fuck");
       fn(req, res, next);
     } catch (error) {
-      console.log("Bal");
       sendResponse<IGenericErrorMessage>(res, {
         statusCode: httpStatus.BAD_REQUEST,
         success: false,

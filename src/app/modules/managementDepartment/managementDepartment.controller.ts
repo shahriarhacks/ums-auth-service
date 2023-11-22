@@ -63,7 +63,7 @@ export const updateManagementDepartment: RequestHandler = async (
     const { id } = req.params;
     const { ...updatedData } = req.body;
     const result = await updateManagementDepartmentServices(updatedData, id);
-    console.log("HF");
+
     sendResponse(res, {
       statusCode: httpStatus.CREATED,
       success: true,
