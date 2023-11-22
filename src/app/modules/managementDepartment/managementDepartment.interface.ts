@@ -8,3 +8,7 @@ export type ManagementDepartmentModel = Model<
   IManagementDepartment,
   Record<string, unknown>
 >;
+
+export type IManagementDepartmentFilterAbleFields = {
+  search?: string;
+};
