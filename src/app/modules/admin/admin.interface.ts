@@ -8,7 +8,7 @@ export type UserName = {
 };
 
 export type IAdmin = {
-  aid: string;
+  uid: string;
   name: UserName;
   profileImage?: string;
   dateOfBirth?: string;
@@ -27,7 +27,7 @@ export type AdminModel = Model<IAdmin, Record<string, unknown>>;
 
 export type IAdminFilters = {
   search?: string;
-  aid?: string;
+  uid?: string;
   email?: string;
   contactNo?: string;
   emergencyContactNo?: string;

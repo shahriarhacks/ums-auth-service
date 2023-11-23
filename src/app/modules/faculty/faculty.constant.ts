@@ -3,7 +3,7 @@ export const bloodGroup = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 export const facultyFilterableFields = [
   "search",
-  "fid",
+  "uid",
   "gender",
   "bloodGroup",
   "email",

@@ -4,7 +4,7 @@ import { FacultyModel, IFaculty } from "./faculty.interface";
 
 const facultySchema = new Schema<IFaculty, FacultyModel>(
   {
-    fid: {
+    uid: {
       type: String,
       required: true,
       unique: true,

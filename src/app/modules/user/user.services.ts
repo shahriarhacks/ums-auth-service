@@ -37,7 +37,7 @@ export const createStudentService = async (student: IStudent, user: IUser) => {
 
     const sid = await generatedStudentId(academicSemester as IAcademicSemester);
     user.uid = sid;
-    student.sid = sid;
+    student.uid = sid;
 
     const newStudent = await Student.create([student], { session });
 
@@ -95,7 +95,7 @@ export const createFacultyServices = async (faculty: IFaculty, user: IUser) => {
 
     const fid = await generatedFacultyId();
     user.uid = fid;
-    faculty.fid = fid;
+    faculty.uid = fid;
 
     const newFaculty = await Faculty.create([faculty], { session });
     if (!newFaculty.length) {
@@ -149,7 +149,7 @@ export const createAdminServices = async (
 
     const id = await generatedAdminId();
     user.uid = id;
-    admin.aid = id;
+    admin.uid = id;
 
     const newAdmin = await Admin.create([admin], { session });
 

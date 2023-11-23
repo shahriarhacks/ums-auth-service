@@ -9,7 +9,7 @@ export type FName = {
 };
 
 export type IFaculty = {
-  fid: string;
+  uid: string;
   name: FName;
   profileImage?: string;
   dateOfBirth: string;
@@ -29,7 +29,7 @@ export type FacultyModel = Model<IFaculty, Record<string, unknown>>;
 
 export type IFacultyFilters = {
   search?: string;
-  fid?: string;
+  uid?: string;
   email?: string;
   contactNo?: string;
   emergencyContactNo?: string;

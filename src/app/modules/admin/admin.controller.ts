@@ -9,6 +9,7 @@ import {
   deleteAdminServices,
   getAllAdminServices,
   getSingleAdminServices,
+  updateAdminServices,
 } from "./admin.services";
 
 export const getSingleAdmin: RequestHandler = async (req, res, next) => {
@@ -34,7 +35,7 @@ export const deleteAdmin: RequestHandler = async (req, res, next) => {
     sendResponse<IAdmin>(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Single Student Deleted Successfully",
+      message: "Admin Deleted Successfully",
       data: result,
     });
   } catch (error) {
@@ -55,6 +56,22 @@ export const getAllAdmins: RequestHandler = async (req, res, next) => {
       message: "All Admin Retrieve Successfully",
       meta: result.meta,
       data: result.data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateAdmin: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+    const result = await updateAdminServices(id, updatedData);
+    sendResponse<IAdmin>(res, {
+      statusCode: httpStatus.CREATED,
+      success: true,
+      message: "Admin Updated Successfully",
+      data: result,
     });
   } catch (error) {
     next(error);
