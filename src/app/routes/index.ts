@@ -3,6 +3,7 @@ import academicDepartmentRoute from "../modules/academicDepartment/academicDepar
 import academicFacultyRoute from "../modules/academicFaculty/academicFaculty.router";
 import academicSemesterRoute from "../modules/academicSemester/academicSemester.route";
 import adminRoute from "../modules/admin/admin.route";
+import authRoute from "../modules/auth/auth.route";
 import facultyRoute from "../modules/faculty/faculty.route";
 import managementDepartmentRoute from "../modules/managementDepartment/managementDepartment.route";
 import studentRoute from "../modules/student/student.route";
@@ -44,6 +45,10 @@ const moduleRoutes: IModuleRouter[] = [
   {
     path: "/admins",
     route: adminRoute,
+  },
+  {
+    path: "/auth",
+    route: authRoute,
   },
 ];
 

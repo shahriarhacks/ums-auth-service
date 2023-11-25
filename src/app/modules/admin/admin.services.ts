@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import httpStatus from "http-status";
 import { SortOrder } from "mongoose";
+import ApiError from "../../../errors/ApiError";
 import paginationHelperCalculator from "../../../helpers/paginationHelper";
 import { IPaginationOptions } from "../../../interfaces/paginationOptionsType";
 import { adminSearchableFields } from "./admin.constant";
-import { IAdminFilters } from "./admin.interface";
+import { IAdmin, IAdminFilters } from "./admin.interface";
 import Admin from "./admin.model";
 
 export const getSingleAdminServices = async (id: string) => {
@@ -73,4 +76,31 @@ export const getAllAdminServices = async (
     },
     data: result,
   };
+};
+
+export const updateAdminServices = async (
+  id: string,
+  payload: Partial<IAdmin>,
+) => {
+  const isExist = await Admin.findById(id);
+
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Faculty Not Found");
+  }
+  const { name, ...facultyUpdated } = payload;
+
+  const updatedFacultyData = { ...facultyUpdated };
+
+  if (name && Object.keys(name).length > 0) {
+    Object.keys(name).map(key => {
+      const nameKey = `name.${key}` as keyof Partial<IAdmin>;
+      (updatedFacultyData as any)[nameKey] = name[key as keyof typeof name];
+    });
+  }
+
+  const result = await Admin.findOneAndUpdate({ _id: id }, updatedFacultyData, {
+    new: true,
+  });
+
+  return result;
 };

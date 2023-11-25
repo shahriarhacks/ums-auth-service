@@ -4,7 +4,7 @@ import { AdminModel, IAdmin } from "./admin.interface";
 
 const adminSchema = new Schema<IAdmin, AdminModel>(
   {
-    aid: {
+    uid: {
       type: String,
       unique: true,
       required: true,

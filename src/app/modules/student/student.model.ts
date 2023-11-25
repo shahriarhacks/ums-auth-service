@@ -4,7 +4,7 @@ import { IStudent, StudentModel } from "./student.interface";
 
 const studentSchema = new Schema<IStudent, StudentModel>(
   {
-    sid: {
+    uid: {
       type: String,
       required: true,
       unique: true,

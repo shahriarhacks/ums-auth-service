@@ -2,7 +2,7 @@ export const gender = ["male", "female", "others"];
 export const bloodGroup = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 export const studentSearchableFields = [
-  "sid",
+  "uid",
   "email",
   "contactNo",
   "name.firstName",
@@ -12,7 +12,7 @@ export const studentSearchableFields = [
 
 export const studentFilterableFields = [
   "search",
-  "sid",
+  "uid",
   "bloodGroup",
   "email",
   "contactNo",

@@ -1,14 +1,17 @@
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { Application, NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import routes from "./app/routes/index";
 import sendResponse from "./shared/sendResponse";
+
 const app: Application = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(cookieParser());
 
 //Application router call
 app.use("/api/v1", routes);

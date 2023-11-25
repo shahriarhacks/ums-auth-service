@@ -9,6 +9,7 @@ import {
   deleteFacultyServices,
   getAllFacultyServices,
   getSingleFacultyServices,
+  updateFacultyServices,
 } from "./faculty.services";
 
 export const getSingleFaculty: RequestHandler = async (req, res, next) => {
@@ -34,7 +35,7 @@ export const deleteFaculty: RequestHandler = async (req, res, next) => {
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Single Student Deleted Successfully",
+      message: "Faculty Deleted Successfully",
       data: result,
     });
   } catch (error) {
@@ -53,6 +54,22 @@ export const getAllFaculties: RequestHandler = async (req, res, next) => {
       message: "All Faculty Retrieve Successfully",
       meta: result.meta,
       data: result.data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateFaculty: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+    const result = await updateFacultyServices(id, updatedData);
+    sendResponse<IFaculty>(res, {
+      statusCode: httpStatus.CREATED,
+      success: true,
+      message: "Faculty Updated Successfully",
+      data: result,
     });
   } catch (error) {
     next(error);
