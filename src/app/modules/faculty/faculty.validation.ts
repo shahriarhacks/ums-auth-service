@@ -4,11 +4,13 @@ import { bloodGroup, gender } from "./faculty.constant";
 export const updateFacultyZodSchema = z.object({
   body: z
     .object({
-      name: z.object({
-        firstName: z.string().optional(),
-        lastName: z.string().optional(),
-        middleName: z.string().optional(),
-      }).optional,
+      name: z
+        .object({
+          firstName: z.string().optional(),
+          lastName: z.string().optional(),
+          middleName: z.string().optional(),
+        })
+        .optional(),
       gender: z.enum([...gender] as [string, ...string[]]).optional(),
       dateOfBirth: z.string().optional(),
       email: z.string().email().optional(),
