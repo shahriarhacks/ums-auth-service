@@ -1,4 +1,6 @@
 import express from "express";
+import { ENUM_USER_ROLE } from "../../../enums/user";
+import auth from "../../middlewares/auth";
 import validateRequest from "../../middlewares/validateRequest";
 import {
   createAcademicFaculty,
@@ -17,18 +19,28 @@ const router = express.Router();
 router.post(
   "/create",
   validateRequest(createAcademicFacultyZodSchema),
+  auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
   createAcademicFaculty,
 );
 
-router.get("/:id", getSingleAcademicFaculty);
+router.get(
+  "/:id",
+  auth(
+    ENUM_USER_ROLE.SUPER_ADMIN,
+    ENUM_USER_ROLE.ADMIN,
+    ENUM_USER_ROLE.FACULTY,
+  ),
+  getSingleAcademicFaculty,
+);
 
 router.patch(
   "/:id",
   validateRequest(updateAcademicFacultyZodSchema),
+  auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
   updateSingleAcademicFaculty,
 );
 
-router.delete("/:id", deleteSingleFaculty);
+router.delete("/:id", auth(ENUM_USER_ROLE.SUPER_ADMIN), deleteSingleFaculty);
 
 router.get("/", getAllAcademicFaculty);
 
